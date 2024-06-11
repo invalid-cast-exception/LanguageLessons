@@ -10,7 +10,7 @@ public class WordTest {
         Word myFirstWord = new Word();
 
         assertNotNull(myFirstWord);
-        assertEquals(myFirstWord.getRootWord(), "Nothing");
+        assertEquals("Nothing", myFirstWord.getRootWord());
 
     }
 }
