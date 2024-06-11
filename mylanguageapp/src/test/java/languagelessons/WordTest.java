@@ -13,4 +13,14 @@ public class WordTest {
         assertEquals("Nothing", myFirstWord.getRootWord());
 
     }
+
+    
+    @Test void wordCanHaveAnAssociatedLanguage() {
+
+        Word mySecondWord = new Word();
+
+        assertNotNull(mySecondWord);
+        assertEquals("English", mySecondWord.getLanguage());
+
+    }
 }
