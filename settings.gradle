@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'LanguageLessons'
-include('app')
+include('mylanguageapp')
