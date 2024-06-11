@@ -10,7 +10,7 @@ public class WordTest {
         Word myFirstWord = new Word();
 
         assertNotNull(myFirstWord);
-        assertEquals(myFirstWord.GetRootWord(), "Nothing");
+        assertEquals(myFirstWord.getRootWord(), "Nothing");
 
     }
 }

@@ -2,7 +2,7 @@ package languagelessons;
 
 public class Word {
 
-    public Object GetRootWord() {
+    public Object getRootWord() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'GetRootWord'");
     }
