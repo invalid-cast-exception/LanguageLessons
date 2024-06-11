@@ -10,6 +10,11 @@ public class Word {
         return "English";
     }
 
+    public Object getWordUsageHint() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getWordUsageHint'");
+    }
+
 
 
 }
