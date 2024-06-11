@@ -28,5 +28,7 @@ replay_pid*
 
 # Ignore Gradle build output directory
 build
+
+#ignore VSCode settings that are developer or machine specific
 .vscode/settings.json
 .vscode/launch.json
