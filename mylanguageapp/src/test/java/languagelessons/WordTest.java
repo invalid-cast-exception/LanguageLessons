@@ -23,4 +23,18 @@ public class WordTest {
         assertEquals("English", mySecondWord.getLanguage());
 
     }
+
+    @Test void wordCanBeANounOrVerb(){
+        Word myThirdWord = new Word();
+
+        Word myFourthWord = new Word();
+
+        assertNotNull(myThirdWord);
+        assertNotNull(myFourthWord);
+
+        assertEquals(WordUsage.Verb, myThirdWord.getWordUsageHint());
+        assertEquals(WordUsage.Noun, myFourthWord.getWordUsageHint());
+        
+
+    }
 }
