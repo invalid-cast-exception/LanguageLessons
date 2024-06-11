@@ -7,8 +7,7 @@ public class Word {
     }
 
     public String getLanguage() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getLanguage'");
+        return "English";
     }
 
 
