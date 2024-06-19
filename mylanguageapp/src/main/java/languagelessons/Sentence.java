@@ -10,4 +10,19 @@ public class Sentence {
 
     }
 
+    public String toString(){
+        StringBuilder sentenceStringBuilder = new StringBuilder();
+
+        int currentWordIndex = 0;
+        for (Word word : wordsInSentence){
+            
+            if (currentWordIndex != 0) sentenceStringBuilder.append(" ");
+            sentenceStringBuilder.append(word.getRootWord());
+            currentWordIndex++;
+        }
+
+        return sentenceStringBuilder.toString();
+
+    }
+
 }
