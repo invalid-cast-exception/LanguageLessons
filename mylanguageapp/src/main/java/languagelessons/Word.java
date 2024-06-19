@@ -30,7 +30,7 @@ public class Word {
     }
 
     public String toString(){
-        return super.toString();
+        return getRootWord();
     }
 
 
