@@ -2,6 +2,16 @@ package languagelessons;
 
 public class Word {
 
+    WordUsage wordUsage;
+
+    public Word(){
+        //default constructor
+    }
+
+    public Word(WordUsage wordUsage) {
+        this.wordUsage = wordUsage;
+    }
+
     public String getRootWord() {
         return "Nothing";
     }
@@ -11,7 +21,7 @@ public class Word {
     }
 
     public WordUsage getWordUsageHint() {
-        return WordUsage.Noun;
+        return this.wordUsage;
     }
 
 

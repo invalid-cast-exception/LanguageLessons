@@ -25,9 +25,9 @@ public class WordTest {
     }
 
     @Test void wordCanBeANounOrVerb(){
-        Word myThirdWord = new Word();
+        Word myThirdWord = new Word(WordUsage.Verb);
 
-        Word myFourthWord = new Word();
+        Word myFourthWord = new Word(WordUsage.Noun);
 
         assertNotNull(myThirdWord);
         assertNotNull(myFourthWord);
