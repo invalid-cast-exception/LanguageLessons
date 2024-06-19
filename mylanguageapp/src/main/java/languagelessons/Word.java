@@ -33,6 +33,28 @@ public class Word {
         return getRootWord();
     }
 
+    public static Word[][] getMultipleWordArraysFromStringSentences(String[] sentencesAsStrings) {
+        Word[][] output = new Word[sentencesAsStrings.length][];
+
+        int currentWordListIndex = 0;
+        for (String sentenceAsString : sentencesAsStrings) {
+            
+            String[] sentenceAsStringArray = sentenceAsString.split(" ");
+
+            output[currentWordListIndex] = new Word[sentenceAsStringArray.length];
+
+            int currentWordIndex = 0;
+            for (String wordAsString : sentenceAsStringArray) {
+                output[currentWordListIndex][currentWordIndex]= new Word(wordAsString);
+                currentWordIndex++;
+            }
+
+            currentWordListIndex++;
+        }
+
+        return output;
+    }
+
 
 
 }

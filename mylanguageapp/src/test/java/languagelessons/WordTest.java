@@ -43,7 +43,7 @@ public class WordTest {
 
     @ParameterizedTest
     @ValueSource(strings={"My", "First", "Words"})
-    void wordCanBeConstructedWithARootWord(String wordAsString){
+    protected void wordCanBeConstructedWithARootWord(String wordAsString){
 
         Word thisWord = new Word(wordAsString); 
 
@@ -54,7 +54,7 @@ public class WordTest {
     
     @ParameterizedTest
     @ValueSource(strings={"My", "First", "Words"})
-    void wordCanBePrintedToString(String wordAsString){
+    protected void wordCanBePrintedToString(String wordAsString){
 
         Word thisWord = new Word(wordAsString); 
 

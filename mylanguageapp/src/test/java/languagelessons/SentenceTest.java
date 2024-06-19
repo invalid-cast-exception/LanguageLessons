@@ -18,15 +18,24 @@ public class SentenceTest {
         , "The Quick Duck Quacked."
     };
     
-    
-    static Stream<Arguments> GetAllArraysOfWords(){
-        return GetArraysOfWords(-1);
+    //named static helper for SentenceTest - for use with MethodSource annotation
+    static Stream<Arguments> getAllArraysOfWords(){
+        return getSubsetOfArraysOfWordsAndCorrespondingStringSentence(-1);
     }
-    static Stream<Arguments> GetFirstArrayOfWords(){
-        return GetArraysOfWords(1);
+
+    //named static helper for SentenceTest - for use with MethodSource annotation
+    static Stream<Arguments> getFirstArrayOfWords(){
+        return getSubsetOfArraysOfWordsAndCorrespondingStringSentence(1);
+    }
+
+    //DRY - unified method to handle any requested count of entries in arguments stream - while always using the same local SentenceTest properties
+    static Stream<Arguments> getSubsetOfArraysOfWordsAndCorrespondingStringSentence(int requestedCount){
+        return getArraysOfWordsAndCorrespondingStringSentenceAsArguments(requestedCount,listOfListsOfWords,sentencesAsStrings);
+
     }
     
-    static Stream<Arguments> GetArraysOfWords(int count){
+    //core helper overload - functional and public static - intended for use in other tests, e.g. WordTest.java
+    public static Stream<Arguments> getArraysOfWordsAndCorrespondingStringSentenceAsArguments(int count, Word[][] listOfListsOfWords, String[] sentencesAsStrings){
         Builder<Arguments> a = Stream.builder();
 
         int currentSentenceAsStringIndex = 0;
@@ -44,33 +53,17 @@ public class SentenceTest {
     }
 
     @BeforeAll
-    static void SetupTestValues(){
+    static void setupTestValues(){
 
-        listOfListsOfWords = new Word[sentencesAsStrings.length][];
-
-        int currentWordListIndex = 0;
-        for (String sentenceAsString : sentencesAsStrings) {
-            
-            String[] sentenceAsStringArray = sentenceAsString.split(" ");
-
-            listOfListsOfWords[currentWordListIndex] = new Word[sentenceAsStringArray.length];
-
-            int currentWordIndex = 0;
-            for (String wordAsString : sentenceAsStringArray) {
-                listOfListsOfWords[currentWordListIndex][currentWordIndex]= new Word(wordAsString);
-                currentWordIndex++;
-            }
-
-            currentWordListIndex++;
-        }
+        listOfListsOfWords = Word.getMultipleWordArraysFromStringSentences(sentencesAsStrings);
         
         assertEquals(sentencesAsStrings.length, listOfListsOfWords.length);
 
     }
     
     @ParameterizedTest
-    @MethodSource("GetAllArraysOfWords")
-    public void verifyTestSetupAsExpected(Word[] sentenceAsWords, String sentenceAsString) {
+    @MethodSource("getAllArraysOfWords")
+    protected void verifyTestSetupAsExpected(Word[] sentenceAsWords, String sentenceAsString) {
 
         String[] wordsInSentence = sentenceAsString.split(" ");
         int currentWordIndex = 0;
@@ -82,8 +75,8 @@ public class SentenceTest {
     }
 
     @ParameterizedTest
-    @MethodSource("GetFirstArrayOfWords")
-    public void sentenceCanBeConstructedFromWords(Word[] sentenceAsWords, String sentenceAsString) {
+    @MethodSource("getFirstArrayOfWords")
+    protected void sentenceCanBeConstructedFromWords(Word[] sentenceAsWords, String sentenceAsString) {
 
         Sentence myFirstSentence = new Sentence(sentenceAsWords);
         
@@ -91,8 +84,8 @@ public class SentenceTest {
 
     }
     @ParameterizedTest
-    @MethodSource("GetFirstArrayOfWords")
-    public void sentenceCanBePrintedToString(Word[] sentenceAsWords, String sentenceAsString) {
+    @MethodSource("getFirstArrayOfWords")
+    protected void sentenceCanBePrintedToString(Word[] sentenceAsWords, String sentenceAsString) {
 
         Sentence myFirstSentence = new Sentence(sentenceAsWords);
 
