@@ -1,6 +1,9 @@
 package languagelessons;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -37,4 +40,27 @@ public class WordTest {
         
 
     }
+
+    @ParameterizedTest
+    @ValueSource(strings={"My", "First", "Words"})
+    void wordCanBeConstructedWithARootWord(String wordAsString){
+
+        Word thisWord = new Word(wordAsString); 
+
+        assertEquals(wordAsString, thisWord.getRootWord());
+        
+
+    }
+    
+    @ParameterizedTest
+    @ValueSource(strings={"My", "First", "Words"})
+    void wordCanBePrintedToString(String wordAsString){
+
+        Word thisWord = new Word(wordAsString); 
+
+        assertEquals(wordAsString, thisWord.toString());
+        
+
+    }
+
 }

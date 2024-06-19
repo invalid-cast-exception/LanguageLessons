@@ -2,7 +2,8 @@ package languagelessons;
 
 public class Word {
 
-    WordUsage wordUsage;
+    private WordUsage wordUsage;
+    private String rootWord = "Nothing";
 
     public Word(){
         //default constructor
@@ -12,8 +13,12 @@ public class Word {
         this.wordUsage = wordUsage;
     }
 
+    public Word(String rootWord) {
+        this.rootWord = rootWord;
+    }
+
     public String getRootWord() {
-        return "Nothing";
+        return this.rootWord;
     }
 
     public String getLanguage() {
@@ -22,6 +27,10 @@ public class Word {
 
     public WordUsage getWordUsageHint() {
         return this.wordUsage;
+    }
+
+    public String toString(){
+        return super.toString();
     }
 
 
