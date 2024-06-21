@@ -36,7 +36,7 @@ public class VocabularyTest {
         assertEquals(0, someWords.getWordCount());
 
         for (String word : wordsToAdd){
-            someWords.AddWord(new Word(word));
+            someWords.addWord(new Word(word));
         }
 
         assertEquals(wordsToAdd.length, someWords.getWordCount());

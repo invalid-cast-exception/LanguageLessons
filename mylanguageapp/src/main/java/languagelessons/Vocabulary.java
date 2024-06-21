@@ -16,11 +16,11 @@ public class Vocabulary{
 
     }
 
-    public Boolean AddWord(Word wordToAdd){
-        return AddWord(wordToAdd, false);
+    public Boolean addWord(Word wordToAdd){
+        return addWord(wordToAdd, false);
     }
 
-    public Boolean AddWord(Word wordToAdd, Boolean overwriteIfExists){
+    public Boolean addWord(Word wordToAdd, Boolean overwriteIfExists){
 
         Boolean wasAdded = false;
 
