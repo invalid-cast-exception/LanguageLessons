@@ -17,14 +17,22 @@ public class Vocabulary{
     }
 
     public Boolean addWord(Word wordToAdd){
-        return addWord(wordToAdd, false);
+        return addWord(wordToAdd, IfWordAlreadyExists.AddAsDuplicate);
     }
 
-    public Boolean addWord(Word wordToAdd, Boolean overwriteIfExists){
+    public Boolean updateWord(Word wordToAdd){
+        return addWord(wordToAdd, IfWordAlreadyExists.Overwrite);
+    }
 
-        Boolean wasAdded = false;
+    protected enum IfWordAlreadyExists{
+        DoNotAdd
+        , Overwrite
+        , AddAsDuplicate
+    }
 
+    public Boolean addWord(Word wordToAdd, IfWordAlreadyExists resolution){
 
+        Boolean wasAdded = wordsInVocabulary.add(wordToAdd);
 
         return wasAdded;
     }
