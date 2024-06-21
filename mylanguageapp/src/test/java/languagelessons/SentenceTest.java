@@ -68,7 +68,7 @@ public class SentenceTest {
         String[] wordsInSentence = sentenceAsString.split(" ");
         int currentWordIndex = 0;
         for (String wordAsString : wordsInSentence) {
-            assertEquals(wordAsString, sentenceAsWords[currentWordIndex].getRootWord());
+            assertEquals(wordAsString, sentenceAsWords[currentWordIndex].rootWord());
             currentWordIndex++;
         }
 

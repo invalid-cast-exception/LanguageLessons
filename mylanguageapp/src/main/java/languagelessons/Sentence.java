@@ -17,7 +17,7 @@ public class Sentence {
         for (Word word : wordsInSentence){
             
             if (currentWordIndex != 0) sentenceStringBuilder.append(" ");
-            sentenceStringBuilder.append(word.getRootWord());
+            sentenceStringBuilder.append(word.rootWord());
             currentWordIndex++;
         }
 

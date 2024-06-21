@@ -13,7 +13,7 @@ public class WordTest {
         Word myFirstWord = new Word();
 
         assertNotNull(myFirstWord);
-        assertEquals("Nothing", myFirstWord.getRootWord());
+        assertEquals("Nothing", myFirstWord.rootWord());
 
     }
 
@@ -35,8 +35,8 @@ public class WordTest {
         assertNotNull(myThirdWord);
         assertNotNull(myFourthWord);
 
-        assertEquals(WordUsage.Verb, myThirdWord.getWordUsageHint());
-        assertEquals(WordUsage.Noun, myFourthWord.getWordUsageHint());
+        assertEquals(WordUsage.Verb, myThirdWord.wordUsage());
+        assertEquals(WordUsage.Noun, myFourthWord.wordUsage());
         
 
     }
@@ -47,7 +47,7 @@ public class WordTest {
 
         Word thisWord = new Word(wordAsString); 
 
-        assertEquals(wordAsString, thisWord.getRootWord());
+        assertEquals(wordAsString, thisWord.rootWord());
         
 
     }
@@ -95,7 +95,7 @@ public class WordTest {
 
                 Word currentWord = currentSentence[indexOfCurrentWord];
 
-                String currentWordAsString = currentWord.getRootWord();
+                String currentWordAsString = currentWord.rootWord();
                 reconstructedSentence.append(currentWordAsString);
                 if (indexOfCurrentWord < currentSentence.length-1) reconstructedSentence.append(" ");
 

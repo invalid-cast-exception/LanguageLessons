@@ -1,36 +1,39 @@
 package languagelessons;
 
-public class Word {
+//For more info about Java Record, since Java SE 14, see: https://docs.oracle.com/en/java/javase/17/language/records.html
+public record Word (WordUsage wordUsage, String rootWord){
+ 
 
-    private WordUsage wordUsage;
-    private String rootWord = "Nothing";
+    //Explicit implementation for the record's compact constructor
+    //By omitting the parameters from the method signature, they will be implicitly assumed to match the Record class declaration header
+    public Word{
+        
+        //REMEMBER: after the compact constructor (if no exceptions) 
+        //    - the value of the private final fields will get set from the implict parameters
+        //e.g. compiler error prevents explicitly writing the below line 
+        //    - because it conflicts with this automatic assignment:
+        //this.rootWord = rootWord;
 
-    public Word(){
-        //default constructor
     }
 
     public Word(WordUsage wordUsage) {
-        this.wordUsage = wordUsage;
+        this(wordUsage, "Nothing"); 
     }
 
     public Word(String rootWord) {
-        this.rootWord = rootWord;
+        this(WordUsage.Noun, rootWord);
     }
 
-    public String getRootWord() {
-        return this.rootWord;
+    public Word() {
+        this(WordUsage.Noun);
     }
 
     public String getLanguage() {
         return "English";
     }
 
-    public WordUsage getWordUsageHint() {
-        return this.wordUsage;
-    }
-
     public String toString(){
-        return getRootWord();
+        return this.rootWord();
     }
 
     public static Word[][] getMultipleWordArraysFromStringSentences(String[] sentencesAsStrings) {
