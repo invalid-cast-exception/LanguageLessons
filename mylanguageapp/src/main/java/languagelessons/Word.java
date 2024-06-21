@@ -3,7 +3,6 @@ package languagelessons;
 //For more info about Java Record, since Java SE 14, see: https://docs.oracle.com/en/java/javase/17/language/records.html
 public record Word (WordUsage wordUsage, String rootWord){
  
-
     //Explicit implementation for the record's compact constructor
     //By omitting the parameters from the method signature, they will be implicitly assumed to match the Record class declaration header
     public Word{
@@ -58,6 +57,14 @@ public record Word (WordUsage wordUsage, String rootWord){
         return output;
     }
 
+    public enum WordUsage {
+        Noun, Verb
+
+    }
+
+    public class WordTransform{
+        
+    }
 
 
 }
