@@ -30,9 +30,37 @@ public class Vocabulary{
         , AddAsDuplicate
     }
 
-    public Boolean addWord(Word wordToAdd, IfWordAlreadyExists resolution){
+    public Boolean addWord(Word wordToAdd, IfWordAlreadyExists resolution) {//} throws Exception{
 
-        Boolean wasAdded = wordsInVocabulary.add(wordToAdd);
+        Boolean alreadyExists = wordsInVocabulary.contains(wordToAdd);
+
+        int invalidIndex = -1;
+        int indexToInsertAt = invalidIndex;
+
+        if (alreadyExists){
+            switch (resolution) {
+                case DoNotAdd:
+                    return false;
+                case Overwrite:
+                    indexToInsertAt = wordsInVocabulary.indexOf(wordToAdd);
+                    break;
+            
+                //fallthrough if adding as duplicate, to continue with adding
+                case AddAsDuplicate:
+                default:
+                    break;
+            }
+        }
+
+        boolean wasAdded = false;
+
+        if (indexToInsertAt == invalidIndex){
+            wasAdded = wordsInVocabulary.add(wordToAdd);
+        }else{
+            wordsInVocabulary.set(indexToInsertAt, wordToAdd);
+            //TODO: handle the case where something went wrong (e.g. indexToInsertAt was not valid)
+            wasAdded = true;
+        }
 
         return wasAdded;
     }
