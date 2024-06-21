@@ -65,8 +65,8 @@ public class VocabularyTest {
 
         List<String> addedWords = new ArrayList<String>();
         for (String word : wordsToAdd){
-            Boolean wordShouldBeAdded = !addedWords.contains(word);
-            Boolean wasAdded = someWords.addWord(new Word(word), IfWordAlreadyExists.DoNotAdd);
+            boolean wordShouldBeAdded = !addedWords.contains(word);
+            boolean wasAdded = someWords.addWord(new Word(word), IfWordAlreadyExists.DoNotAdd);
             assertEquals(wordShouldBeAdded, wasAdded);
             if (wasAdded) addedWords.add(word);
         }
@@ -101,7 +101,7 @@ public class VocabularyTest {
         assertEquals(0, someWords.getWordCount());
 
         for (String word : wordsToAdd){
-            Boolean wasAdded = someWords.addWord(new Word(word), IfWordAlreadyExists.Overwrite);
+            boolean wasAdded = someWords.addWord(new Word(word), IfWordAlreadyExists.Overwrite);
             assertTrue(wasAdded);
         }
 

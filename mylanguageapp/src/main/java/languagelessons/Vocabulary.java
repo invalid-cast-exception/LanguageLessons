@@ -16,11 +16,11 @@ public class Vocabulary{
 
     }
 
-    public Boolean addWord(Word wordToAdd){
+    public boolean addWord(Word wordToAdd){
         return addWord(wordToAdd, IfWordAlreadyExists.AddAsDuplicate);
     }
 
-    public Boolean updateWord(Word wordToAdd){
+    public boolean updateWord(Word wordToAdd){
         return addWord(wordToAdd, IfWordAlreadyExists.Overwrite);
     }
 
@@ -30,9 +30,9 @@ public class Vocabulary{
         , AddAsDuplicate
     }
 
-    public Boolean addWord(Word wordToAdd, IfWordAlreadyExists resolution) {//} throws Exception{
+    public boolean addWord(Word wordToAdd, IfWordAlreadyExists resolution) {//} throws Exception{
 
-        Boolean alreadyExists = wordsInVocabulary.contains(wordToAdd);
+        boolean alreadyExists = wordsInVocabulary.contains(wordToAdd);
 
         int invalidIndex = -1;
         int indexToInsertAt = invalidIndex;
@@ -69,7 +69,7 @@ public class Vocabulary{
         return this.name;
     }
 
-    public Integer getWordCount() {
+    public int getWordCount() {
         return this.wordsInVocabulary.size();
     }
 
