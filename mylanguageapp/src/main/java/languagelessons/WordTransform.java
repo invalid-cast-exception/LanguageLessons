@@ -10,11 +10,20 @@ import languagelessons.Word.WordUsage;
 public class WordTransform{
 
     //NOTES
+    //A WordTransform is a prototype for "something that handles the way words can be changed from the root word"
+    //It depends on 3 key parts:
+    //    - settings (stored on the instance, specifying how that instance will operate)
+    //    - input (the given root word)
+    //    - transformation process (an algorithm, operating on the input according to the settings, to produce a resulting word)
     //Capabilities of WordTransforms
-    // - when does it apply? (custom per-word, can be duplicates or can be unique)
-    // - prioritised substitutions (order of applying, old pattern, new pattern)
-    // - metadata - explanation for the transform, reason it applies
-    // - example words - shows what the transform does, allows to validate by using a known baseline
+    //    - when does it apply? (custom per-word, can be duplicates or can be unique)
+    //    - prioritised substitutions (order of applying, old pattern, new pattern)
+    //    - metadata - explanation for the transform, reason it applies
+    //    - example words - shows what the transform does, allows to validate by using a known baseline
+    //Implementation status
+    //    - This version of the class is highly experimental and intended for exploration. So it is fully expected that a more optimal design exists - a better design should be converged on as iteration continues.
+    //    - Where there are similar but different options possible, it is intended to create a unique WordTransform for each (there will be more duplication of data, but a clearer - approaching 1:1 mapping - between "possible transformation of a word according to natural language" and the WordTransform instances)
+    //For more on natural language, see: https://en.wikipedia.org/wiki/Natural_language 
 
     String textDescription;
     Map<String, String> knownExamplesOfTransformResults;
@@ -79,11 +88,13 @@ public class WordTransform{
         this.specialExclusionsFromThisRule.add(wordToExcludeFromThisTransform);
     }
 
+    //Overload to handle Word as input (for convenience so that calling code does not need to extract the root word)
     public Word applyTransformationToWord(Word wordToTransform){
 
         return applyTransformationToWord(wordToTransform.rootWord());
     }
 
+    //TODO: could be static pure function
     public Word applyTransformationToWord(String wordToTransform){
 
         String resultingWord = wordToTransform;
