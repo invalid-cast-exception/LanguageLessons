@@ -1,5 +1,10 @@
 package languagelessons;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 //For more info about Java Record, since Java SE 14, see: https://docs.oracle.com/en/java/javase/17/language/records.html
 public record Word (WordUsage wordUsage, String rootWord){
  
@@ -58,13 +63,12 @@ public record Word (WordUsage wordUsage, String rootWord){
     }
 
     public enum WordUsage {
-        Noun, Verb
+        Any, Noun, Verb, Adverb, Adjective
 
     }
 
-    public class WordTransform{
-        
+    public enum WordTense {
+        Past, Future, Present, Conditional
     }
-
 
 }
