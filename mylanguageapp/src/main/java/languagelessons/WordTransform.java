@@ -137,9 +137,10 @@ public class WordTransform{
 
     }
 
-    private static String applyReplacements(WordTransform transformToUse, String resultingWord) {
+    //TODO: move to WordTransformHelper (to clean API surface while keeping unit tests)
+    public static String applyReplacements(WordTransform transformToUse, String rootWord) {
         
-        String output = resultingWord;
+        String output = rootWord;
         for (String thingToReplace : transformToUse.replacements.keySet()){
 
             output = output.replace(thingToReplace, transformToUse.replacements.get(thingToReplace));
@@ -148,10 +149,10 @@ public class WordTransform{
         return output;
 
     }
-
-    private static String applyPrefixesAndSuffixes(WordTransform transformToUse, String resultingWord) {
+    //TODO: move to WordTransformHelper (to clean API surface while keeping unit tests)
+    public static String applyPrefixesAndSuffixes(WordTransform transformToUse, String rootWord) {
         
-        String output = resultingWord;
+        String output = rootWord;
 
         for (String prefix : transformToUse.addToStart){
             output = prefix + output;
@@ -196,23 +197,25 @@ public class WordTransform{
     }
 
     //TODO: change return type here or in an overload - because validation can have more detailed return value than boolean - like how many examples were checked? If failed, what was expected vs. actual?
-    public boolean validateKnownExamples(){
+    public static int countKnownExamplesThatAreCorrectlyTransformed(WordTransform transformToValidate){
 
-        String[] keysOfKnownExamplesMap = this.knownExamplesOfTransformResults.keySet().toArray(new String[]{});
+        int successfullyValidated = 0;
+
+        String[] keysOfKnownExamplesMap = transformToValidate.knownExamplesOfTransformResults.keySet().toArray(new String[]{});
         for (int indexOfExampleWord = 0; indexOfExampleWord < keysOfKnownExamplesMap.length; indexOfExampleWord++){
             String inputWord = keysOfKnownExamplesMap[indexOfExampleWord];
-            String expectedResultWord = this.knownExamplesOfTransformResults.get(inputWord);
+            String expectedResultWord = transformToValidate.knownExamplesOfTransformResults.get(inputWord);
 
-            if (expectedResultWord != WordTransform.applyTransformationToWord(this, inputWord).rootWord()){
-                return false;
+            String actualResultOfTransformation = WordTransform.applyTransformationToWord(transformToValidate, inputWord).rootWord();
+            if (expectedResultWord.equals(actualResultOfTransformation)){
+                successfullyValidated++;
+            }else{
+                System.out.println("Validation for index=" + indexOfExampleWord + " failed. Expected:" + expectedResultWord + ", but got:" + actualResultOfTransformation);
             }
 
         }
 
-        //if we get here, all tested examples were successfully transformed by the rules
-        //    - proving this WordTransform works as expected (for the known example words)
-        return true;
-
+        return successfullyValidated;
 
     }
 
@@ -326,6 +329,12 @@ public class WordTransform{
         }
 
         this.allowedWordUsagesThisTransformCanApplyTo.add(wordUsageThisRuleCanApplyTo);
+
+    }
+
+    public static boolean areAllKnownExamplesAsExpected(WordTransform transformToValidate) {
+        
+        return WordTransform.countKnownExamplesThatAreCorrectlyTransformed(transformToValidate) == transformToValidate.getKnownExampleCount();
 
     }
 

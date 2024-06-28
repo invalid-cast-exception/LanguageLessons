@@ -241,9 +241,95 @@ public class WordTransformTest {
     }
 
 
-    //TODO:
-    //Test for String applyReplacements(WordTransform transformToUse, String resultingWord)
-    //Test for WordTransform.applyPrefixesAndSuffixes(WordTransform transformToUse, String resultingWord)
+    @Test void canApplyPrefixesAndSuffixesAsExpected(){
+        String expectedResult = "Antidisestablishmentarianism";
+        String rootWord = "establish";
+
+        myTestWordTransform.addTextToPrepend("dis");
+        myTestWordTransform.addTextToPrepend("Anti");
+        myTestWordTransform.addTextToAppend("ment");
+        myTestWordTransform.addTextToAppend("arian");
+        myTestWordTransform.addTextToAppend("ism");
+
+        String actualResult = WordTransform.applyPrefixesAndSuffixes(myTestWordTransform, rootWord);
+
+        assertEquals(expectedResult, actualResult);
+
+    }
+
+    @Test void canApplyReplacementsAsExpected(){
+        String expectedResult = "proudly";
+        String rootWord = "proud";
+
+        myTestWordTransform.addReplacementRule("d", "dly");
+        myTestWordTransform.addKnownReplacementExample("excitedly", "excited");
+
+        String actualResult = WordTransform.applyReplacements(myTestWordTransform, rootWord);
+
+        assertEquals(expectedResult, actualResult);
+
+    }
+
+    @Test void canApplyReplacementsAsExpectedWithTwoReplacements(){
+        String expectedResult = "best";
+        String rootWord = "better";
+
+        //This specific rule applies for better->best, BUT might not always apply for words with "ett"...
+        myTestWordTransform.addReplacementRule("ett", "");
+        myTestWordTransform.addReplacementRule("er", "est");
+        myTestWordTransform.addKnownReplacementExample("greater", "greatest");
+
+        String actualResult = WordTransform.applyReplacements(myTestWordTransform, rootWord);
+
+        assertEquals(expectedResult, actualResult);
+
+    }
+
+
+    @Test void doesNotApplyReplacementWhenNothingToReplace(){
+        String expectedResult = "proud";
+        String rootWord = "proud";
+
+        myTestWordTransform.addReplacementRule("e", "ed"); 
+
+        String actualResult = WordTransform.applyReplacements(myTestWordTransform, rootWord);
+
+        assertEquals(expectedResult, actualResult);
+
+    }
+
+    //TODO: more complex test case with more transforms and more known examples to validate
+    //e.g. canCountCorrectTransformedResultsWhenGivenMultipleKnownExamples
+    @Test void canCountCorrectTransformedResultsWhenGivenASingleKnownExample(){
+        
+        //This specific rule applies for better->best, BUT might not always apply for words with "ett"...
+        myTestWordTransform.addReplacementRule("ett", "");
+        myTestWordTransform.addReplacementRule("er", "est");
+        myTestWordTransform.addKnownReplacementExample("greater", "greatest");
+        
+        //defensive check that all examples were successfully checked
+        assertEquals(1, WordTransform.countKnownExamplesThatAreCorrectlyTransformed(myTestWordTransform));
+
+    }
+    
+
+    //TODO: more test cases for validation methods (currently just checks 1 transform with 1 example)
+    @Test void canSuccessfullyValidateRuleOnKnownTestStrings(){
+        
+        //This specific rule applies for better->best, BUT might not always apply for words with "ett"...
+        myTestWordTransform.addReplacementRule("ett", "");
+        myTestWordTransform.addReplacementRule("er", "est");
+        myTestWordTransform.addKnownReplacementExample("greater", "greatest");
+        
+        //defensive check that all examples were successfully checked
+        assertEquals(myTestWordTransform.getKnownExampleCount(), WordTransform.countKnownExamplesThatAreCorrectlyTransformed(myTestWordTransform));
+
+        //check the simple API - this returns true when all examples pass, or false if any fail validation
+        boolean allVerifiedSuccessfully = WordTransform.areAllKnownExamplesAsExpected(myTestWordTransform);
+
+        assertTrue(allVerifiedSuccessfully);
+
+    }
 
     @Test void canApplyTransformToGivenString(){
 
@@ -261,12 +347,9 @@ public class WordTransformTest {
 
         assertEquals("Kites", transformedWord.rootWord());
 
-    
         transformedWord = WordTransform.applyTransformationToWord(myTestWordTransform, "Sky");
 
         assertEquals("Sky", transformedWord.rootWord());
-
-        //TODO: run tests, commit latest progress
 
     }
 
