@@ -12,6 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import languagelessons.Word.WordUsage;
+import languagelessons.WordTransform.ReplacementMode;
 
 public class WordTransformTest {
 
@@ -328,7 +329,7 @@ public class WordTransformTest {
         String rootWord = "better";
 
         //This specific rule applies for better->best, BUT might not always apply for words with "ett"...
-        myTestWordTransform.addReplacementRule("ett", "");
+        myTestWordTransform.addReplacementRule("ett", "", ReplacementMode.ReplaceAllMatches);
         myTestWordTransform.addReplacementRule("er", "est");
         myTestWordTransform.addKnownReplacementExample("greater", "greatest");
 
@@ -337,7 +338,6 @@ public class WordTransformTest {
         assertEquals(expectedResult, actualResult);
 
     }
-
 
     @Test void doesNotApplyReplacementWhenNothingToReplace(){
         String expectedResult = "proud";
@@ -356,7 +356,7 @@ public class WordTransformTest {
     @Test void canCountCorrectTransformedResultsWhenGivenASingleKnownExample(){
         
         //This specific rule applies for better->best, BUT might not always apply for words with "ett"...
-        myTestWordTransform.addReplacementRule("ett", "");
+        myTestWordTransform.addReplacementRule("ett", "", ReplacementMode.ReplaceAllMatches);
         myTestWordTransform.addReplacementRule("er", "est");
         myTestWordTransform.addKnownReplacementExample("greater", "greatest");
         
@@ -370,7 +370,7 @@ public class WordTransformTest {
     @Test void canSuccessfullyValidateRuleOnKnownTestStrings(){
         
         //This specific rule applies for better->best, BUT might not always apply for words with "ett"...
-        myTestWordTransform.addReplacementRule("ett", "");
+        myTestWordTransform.addReplacementRule("ett", "", ReplacementMode.ReplaceAllMatches);
         myTestWordTransform.addReplacementRule("er", "est");
         myTestWordTransform.addKnownReplacementExample("greater", "greatest");
         
@@ -406,6 +406,9 @@ public class WordTransformTest {
 
     }
 
+    //TODO: test coverage shows missing coverage for:
+    // - applyTransformationToWord(Word ...)
+    // - setResultingWordUsage
 
     //TODO: extra test case ideas
 

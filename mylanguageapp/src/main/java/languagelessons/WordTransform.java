@@ -31,7 +31,10 @@ public class WordTransform{
     private Map<String, String> knownExamplesOfTransformResults;
     
     //Types of transform
+    //TODO: refactor into a class called ReplacementRule
     private Map<String, String> replacements;
+    private Map<String, ReplacementMode> replacementModes;
+
     private List<String> addToStart;
     private List<String> addToEnd;
     //TODO: implement this option in replacement algorithm
@@ -49,6 +52,7 @@ public class WordTransform{
     public WordTransform(){
 
         this.replacements = new HashMap<String, String>();
+        this.replacementModes = new HashMap<String, ReplacementMode>();
         this.knownExamplesOfTransformResults = new HashMap<String,String>();
         this.addToEnd = new ArrayList<String>();
         this.addToStart = new ArrayList<String>();
@@ -67,8 +71,21 @@ public class WordTransform{
         this.textDescription = textDescription;
     }
 
+    public enum ReplacementMode{
+        ReplaceAllMatches
+        , ReplaceOnlyEndMatches
+        , ReplaceOnlyBeginningMatches
+    }
+
     public String addReplacementRule(String patternToFindInWord, String replacementPattern){
 
+        //The default replacement mode is replace-only-end-matches since it seems like the most common replacement rule
+        return addReplacementRule(patternToFindInWord, replacementPattern, ReplacementMode.ReplaceOnlyEndMatches); 
+    }
+
+    public String addReplacementRule(String patternToFindInWord, String replacementPattern, ReplacementMode mode){
+
+        this.replacementModes.put(patternToFindInWord, mode);
         return this.replacements.put(patternToFindInWord, replacementPattern);
 
     }
@@ -169,7 +186,33 @@ public class WordTransform{
         String output = rootWord;
         for (String thingToReplace : transformToUse.replacements.keySet()){
 
-            output = output.replace(thingToReplace, transformToUse.replacements.get(thingToReplace));
+
+            String thingToAdd = transformToUse.replacements.get(thingToReplace);
+
+            ReplacementMode mode = transformToUse.replacementModes.get(thingToReplace);
+
+            switch (mode) {
+                case ReplaceAllMatches:{
+                    output = output.replace(thingToReplace, thingToAdd);
+                    break;
+                }
+                case ReplaceOnlyBeginningMatches:{
+                    
+                    //check the beginning of the output string in case the replacement should not apply 
+                    //NOTE that this check occurs on the output string, which is rootWord plus some potential replacements already done
+                    if (output.startsWith(thingToReplace)) output = output.replace(thingToReplace, thingToAdd);
+                    break;
+                }
+                case ReplaceOnlyEndMatches:{
+                    //check the ending of the output string in case the replacement should not apply 
+                    //NOTE that this check occurs on the output string, which is rootWord plus some potential replacements already done
+                    if (output.endsWith(thingToReplace)) output = output.replace(thingToReplace, thingToAdd);
+                    break;
+                }
+                default:
+                    break;
+            }
+
 
         }
         return output;
