@@ -62,13 +62,54 @@ public record Word (WordUsage wordUsage, String rootWord){
         return output;
     }
 
+    //TODO: see: https://en.wikipedia.org/wiki/Discourse_marker 
     public enum WordUsage {
-        Any, Noun, Verb, Adverb, Adjective
+        Any, Noun, Verb, Adverb, Adjective, 
+        //see: https://en.wikipedia.org/wiki/Determiner
+        Quantifier
+        , Preposition
+        //e.g. in English, infinitive verbs are in the for "to verb" and in this case we are calling "to" a decorator
+        , Decorator
+        //e.g. in English: and, but, if, while
+        , Conjunction
 
     }
 
+    //see: https://en.wikipedia.org/wiki/Grammatical_tense
+    //see: https://en.wikipedia.org/wiki/Relative_and_absolute_tense
     public enum WordTense {
-        Past, Future, Present, Conditional
+        None, Past, Future, Present
+    }
+
+
+    //TODO: move this to sentence, because grammar is more related to sentences than individual words... As shown by interesting as a verb, or as a present participle (it's the same word but the usage in a sentence determines which mood it would be described as having)
+    //see: https://en.wikipedia.org/wiki/Grammatical_mood
+    public enum WordMood {
+        //Event depending on a condition, e.g. can, may, shall, will = could, might, should, would
+        //In English, combines with bare infinitive verb (e.g. would buy, should eat, might want, could talk)
+        Conditional
+        //e.g. Let's go
+        , Imperative
+        //e.g. she may go
+        , Potential
+        //future, past, present - statement of actuality (or high-probablity)
+        , Indicative
+        //From Wikipedia - John eats if he is hungry -> subjunctive -> John would eat if he were hungry
+        , Subjunctive
+    }
+
+    //see: 
+    public enum VerbForm {
+        //non-finite - to-infinitive, like: to walk, to climb, to fly
+        Infinitive, 
+        //non-finite - verb/adjective hybrids, AKA using a verb in a different context so it's an adjective now
+        //like for past participle: broken, attached, etc
+        //like for present participles: interesting, exciting
+        Participle, 
+        //non-finite - verb acting as a noun (like painting, building, writing, etc)
+        Gerund,
+        //finite - immediately complements the subject (when not used in imperative mood)
+        Finite
     }
 
 }
