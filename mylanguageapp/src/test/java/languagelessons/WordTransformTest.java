@@ -3,6 +3,7 @@ package languagelessons;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -170,13 +171,40 @@ public class WordTransformTest {
 
 
     }
+    
+    @Test void canGetTheGivenReasonCorrespondingToAGivenExclusion(){
 
+        assertEquals(0, myTestWordTransform.getCountOfSpecialExclusionsFromThisRule());
+
+        //not needed for the unit test but helps illustrate the usage
+        myTestWordTransform.addReplacementRule("ke", "ked");
+        //also not needed but good example
+        myTestWordTransform.setTextDescription("Change words ending 'ke' to past tense, in English.");
+
+        String reasonA, reasonB, reasonC;
+        myTestWordTransform.addSpecialExclusionForGivenWord("take", reasonA = "Take becomes taken, not taked.");
+        myTestWordTransform.addSpecialExclusionForGivenWord("make", reasonB = "Make becomes made, not maked.");
+        myTestWordTransform.addSpecialExclusionForGivenWord("forsake", reasonC = "Forsake becomes forsook, not forsaked.");
+
+        assertEquals(3, myTestWordTransform.getCountOfSpecialExclusionsFromThisRule());
+
+        //assumes order will be deterministic using alphabetic sorting, because that's the more predicatable than the adding order
+        assertEquals("forsake,make,take", myTestWordTransform.getExcludedWordsAsCommaDelimitedString());
+
+        assertEquals(reasonC, myTestWordTransform.tryGetReasonForExclusionOfGivenWord("forsake"));
+        assertEquals(reasonA, myTestWordTransform.tryGetReasonForExclusionOfGivenWord("take"));
+        assertEquals(reasonB, myTestWordTransform.tryGetReasonForExclusionOfGivenWord("make"));
+        assertNull(myTestWordTransform.tryGetReasonForExclusionOfGivenWord("gibberish"));
+        
+
+    }
+
+    //TODO: find a real example of an inclusion - where a transform can be used for a word besides the usual type (e.g. applies specially to 1 noun but is generally a rule for verbs)
     @Test void canAddSpecialInclusionForGivenWord(){
 
         assertEquals(0, myTestWordTransform.getCountOfSpecialInclusionsForThisRule());
 
         //not needed for the unit test but helps illustrate the usage
-        //TODO: replacement rule will also need an option to control how replacement gets done - just endings? anywhere in string? others?
         myTestWordTransform.addReplacementRule("ke", "ked");
         //also not needed but good example
         myTestWordTransform.setTextDescription("Change words ending 'ke' to past tense, in English.");
@@ -188,13 +216,38 @@ public class WordTransformTest {
         //forsake becomes forsook, not forsaked
         myTestWordTransform.addSpecialInclusionForGivenWord("forsake");
 
+        assertEquals(3, myTestWordTransform.getCountOfSpecialInclusionsForThisRule());
 
+        //assumes order will be deterministic using alphabetic sorting, because that's the more predicatable than the adding order
+        assertEquals("forsake,make,take", myTestWordTransform.getIncludedWordsAsCommaDelimitedString());
+
+
+    }
+
+    @Test void canGetTheGivenReasonCorrespondingToAGivenInclusion(){
+
+        assertEquals(0, myTestWordTransform.getCountOfSpecialInclusionsForThisRule());
+
+        //not needed for the unit test but helps illustrate the usage
+        myTestWordTransform.addReplacementRule("ke", "ked");
+        //also not needed but good example
+        myTestWordTransform.setTextDescription("Change words ending 'ke' to past tense, in English.");
+
+        String reasonA, reasonB, reasonC;
+        myTestWordTransform.addSpecialInclusionForGivenWord("take", reasonA = "Take becomes taken, not taked. THIS IS INCLUDED TO THIS WORDTRANSFORM JUST FOR TEST PURPOSES.");
+        myTestWordTransform.addSpecialInclusionForGivenWord("make", reasonB = "Make becomes made, not maked. THIS IS INCLUDED TO THIS WORDTRANSFORM JUST FOR TEST PURPOSES.");
+        myTestWordTransform.addSpecialInclusionForGivenWord("forsake", reasonC = "Forsake becomes forsook, not forsaked. THIS IS INCLUDED TO THIS WORDTRANSFORM JUST FOR TEST PURPOSES.");
 
         assertEquals(3, myTestWordTransform.getCountOfSpecialInclusionsForThisRule());
 
         //assumes order will be deterministic using alphabetic sorting, because that's the more predicatable than the adding order
         assertEquals("forsake,make,take", myTestWordTransform.getIncludedWordsAsCommaDelimitedString());
 
+        assertEquals(reasonC, myTestWordTransform.tryGetReasonForInclusionOfGivenWord("forsake"));
+        assertEquals(reasonA, myTestWordTransform.tryGetReasonForInclusionOfGivenWord("take"));
+        assertEquals(reasonB, myTestWordTransform.tryGetReasonForInclusionOfGivenWord("make"));
+        assertNull(myTestWordTransform.tryGetReasonForInclusionOfGivenWord("gibberish"));
+        
 
     }
 
@@ -354,7 +407,34 @@ public class WordTransformTest {
     }
 
 
+    //TODO: extra test case ideas
 
+    //verb or noun: scare
+    //adverb: scarily
+    //adjective: scary
+    //adverb: eerily
+    //adjective: eerie
+    //noun: eeriness
+    //noun: scariness
+
+    //bound, bind
+    //found, find
+    //wound, wind
+
+    //runs, run (noun pluralise, and verb infinitive to present)
+    
+    //two, three, four, five, six, seventh, eighth, ninth, tenth
+    //half, third, quarter, fifth, sixth, seventh, eighth, ninth, tenth
+    //twice, thrice, four times, five times, six times, etc
+
+    //typo corrections:
+    //cieling, ceiling (noun)
+    //spontaniety, spontaneity (noun)
+    //lightwieght, lightweight (adjective)
+
+    //garuntee, guarantee (noun, verb)
+    //quaruntine, quarantine (noun, verb)
+    //arun, uaran
 
 
 }

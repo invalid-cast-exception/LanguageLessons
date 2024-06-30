@@ -43,6 +43,8 @@ public class WordTransform{
 
     private List<String> specialInclusionsForThisRule;
     private List<String> specialExclusionsFromThisRule;
+    private List<String> descriptionsOfSpecialInclusionsForThisRule;
+    private List<String> descriptionsOfSpecialExclusionsFromThisRule;
 
     public WordTransform(){
 
@@ -56,6 +58,8 @@ public class WordTransform{
         this.resultingWordUsage = WordUsage.Any;
         this.specialExclusionsFromThisRule = new ArrayList<String>();
         this.specialInclusionsForThisRule = new ArrayList<String>();
+        this.descriptionsOfSpecialInclusionsForThisRule = new ArrayList<String>();
+        this.descriptionsOfSpecialExclusionsFromThisRule = new ArrayList<String>();
     }
 
     public WordTransform(String textDescription){
@@ -82,13 +86,35 @@ public class WordTransform{
     public boolean addTextToAppend(String textToAppend){
         return this.addToEnd.add(textToAppend);
     }
-
+    
+    /*
+     * Adds a word to the list of included words this transform can apply to. This overload does not provide an explicit reason for the inclusion.
+     */
     public void addSpecialInclusionForGivenWord(String wordToInclude){
+        addSpecialInclusionForGivenWord(wordToInclude, null);
+    }
+    /*
+     * Adds a word to the list of included words this transform can apply to. Also stores the given reason text for a chance to explain why this word is specifically included.
+     */
+    public void addSpecialInclusionForGivenWord(String wordToInclude, String reasonForSpecialInclusion){
         this.specialInclusionsForThisRule.add(wordToInclude);
+        this.descriptionsOfSpecialInclusionsForThisRule.add((reasonForSpecialInclusion == null) ? "No reason given for special inclusion of '"+wordToInclude+"'." : reasonForSpecialInclusion);
     }
 
+    /*
+     * Adds a word to the list of excluded words that this transform will not apply to. This overload does not provide an explicit reason for the exclusion.
+     */
     public void addSpecialExclusionForGivenWord(String wordToExcludeFromThisTransform){
+        addSpecialExclusionForGivenWord(wordToExcludeFromThisTransform, null);
+    }
+
+    /*
+    * Adds a word to the list of excluded words this transform will not apply to. Also stores the given reason text for a chance to explain why this word is specifically excluded.
+     */
+    public void addSpecialExclusionForGivenWord(String wordToExcludeFromThisTransform, String reasonForSpecialExclusion){
         this.specialExclusionsFromThisRule.add(wordToExcludeFromThisTransform);
+        this.descriptionsOfSpecialExclusionsFromThisRule.add((reasonForSpecialExclusion == null) ? "No reason given for special exclusion of '"+wordToExcludeFromThisTransform+"'." : reasonForSpecialExclusion);
+
     }
 
     //Overload to handle Word as input (for convenience so that calling code does not need to extract the root word)
@@ -335,6 +361,39 @@ public class WordTransform{
     public static boolean areAllKnownExamplesAsExpected(WordTransform transformToValidate) {
         
         return WordTransform.countKnownExamplesThatAreCorrectlyTransformed(transformToValidate) == transformToValidate.getKnownExampleCount();
+
+    }
+
+    public String tryGetReasonForExclusionOfGivenWord(String givenWordToCheck) {
+        
+        return tryGetReason(givenWordToCheck, true);
+
+    }
+    public String tryGetReasonForInclusionOfGivenWord(String givenWordToCheck) {
+        
+        return tryGetReason(givenWordToCheck, false);
+
+    }
+
+    private String tryGetReason(String givenWordToCheck, boolean checkExclusionList) {
+        
+        int indexOfReason = -1;
+
+        if (checkExclusionList){
+            indexOfReason = specialExclusionsFromThisRule.indexOf(givenWordToCheck);
+        }else{
+            indexOfReason = specialInclusionsForThisRule.indexOf(givenWordToCheck);
+        }
+
+        if (indexOfReason == -1){
+            return null;
+        }else{
+            if (checkExclusionList){
+                return this.descriptionsOfSpecialExclusionsFromThisRule.get(indexOfReason);
+            }else{
+                return this.descriptionsOfSpecialInclusionsForThisRule.get(indexOfReason);
+            }
+        }
 
     }
 
