@@ -16,4 +16,14 @@ package languagelessons;
 
 public class WordConjugator {
 
+    public Object getCountOfWordTransforms() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCountOfWordTransforms'");
+    }
+
+    public void addWordTransform(WordTransform part1) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addWordTransform'");
+    }
+
 }
