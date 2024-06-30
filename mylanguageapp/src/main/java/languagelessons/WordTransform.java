@@ -200,13 +200,13 @@ public class WordTransform{
                     
                     //check the beginning of the output string in case the replacement should not apply 
                     //NOTE that this check occurs on the output string, which is rootWord plus some potential replacements already done
-                    if (output.startsWith(thingToReplace)) output = output.replace(thingToReplace, thingToAdd);
+                    if (output.startsWith(thingToReplace)) output = output.replaceAll("^"+thingToReplace, thingToAdd);
                     break;
                 }
                 case ReplaceOnlyEndMatches:{
                     //check the ending of the output string in case the replacement should not apply 
                     //NOTE that this check occurs on the output string, which is rootWord plus some potential replacements already done
-                    if (output.endsWith(thingToReplace)) output = output.replace(thingToReplace, thingToAdd);
+                    if (output.endsWith(thingToReplace)) output = output.replaceAll(thingToReplace+"$", thingToAdd);
                     break;
                 }
                 default:

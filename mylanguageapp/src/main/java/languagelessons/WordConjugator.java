@@ -1,5 +1,8 @@
 package languagelessons;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //TODO: this class will contain an array of WordTransforms
 //This allows very specific WordTransforms to be created 
 // - maybe even affecting only 1 word 
@@ -16,14 +19,52 @@ package languagelessons;
 
 public class WordConjugator {
 
-    public Object getCountOfWordTransforms() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCountOfWordTransforms'");
+    List<WordTransform> wordTransforms;
+
+    //by default, apply only the first (seems most common usage)
+    WordConjugationPriority priority = WordConjugationPriority.ApplyFirstOnly;
+
+    public enum WordConjugationPriority{
+        ApplyFirstOnly
+        , ApplyAll
     }
 
-    public void addWordTransform(WordTransform part1) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addWordTransform'");
+    public WordConjugator(){
+        wordTransforms = new ArrayList<WordTransform>();
+    }
+
+    public int getCountOfWordTransforms() {
+        return wordTransforms.size();
+    }
+
+    public void addWordTransform(WordTransform transformToAdd) {
+        
+        if (transformToAdd != null){
+            wordTransforms.add(transformToAdd);
+        }
+
+    }
+
+    public String getTransformedWord(String wordToTransform) {
+        
+        String output = wordToTransform;
+
+        for (WordTransform wordTransform : wordTransforms) {
+
+            //TODO: can log the history of transformations, plus the count of transformations done by storing these intermediary changes
+            String oldWord = output;
+            output = WordTransform.applyReplacements(wordTransform, output);
+
+            //TODO: some transforms may potentially apply but NOT change the word...
+            boolean wasApplied = oldWord != output;
+
+            if (wasApplied){
+                if (this.priority == WordConjugationPriority.ApplyFirstOnly) break;
+            }
+        }
+
+        return output;
+
     }
 
 }
